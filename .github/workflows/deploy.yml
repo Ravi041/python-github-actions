@@ -3,7 +3,7 @@ name: Deploy Python Applicaiton to Google Cloud Run
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   deploy:
