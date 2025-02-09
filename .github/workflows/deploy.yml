@@ -3,7 +3,7 @@ name: Deploy Python Application to Google Cloud Run
 on:
   push:
     branches:
-      - develop # Trigger the deployment only on push to main
+      - main  # Trigger the deployment only on push to main
 
 jobs:
   deploy:
@@ -19,9 +19,9 @@ jobs:
           project_id: ${{ secrets.GCP_PROJECT_ID }}
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      - name: Authenticate to Google Cloud
+      - name: Decode the service account key and authenticate
         run: |
-          echo "${{ secrets.GCP_SA_KEY }}" > "${HOME}/gcp-key.json"
+          echo "${{ secrets.GCP_SA_KEY_BASE64 }}" | base64 --decode > "${HOME}/gcp-key.json"
           gcloud auth activate-service-account --key-file="${HOME}/gcp-key.json"
 
       - name: Configure Docker for Cloud Run
